@@ -1,8 +1,24 @@
 import VConsole from 'vconsole';
 
-// Initialize vConsole
+// Initialize vConsole with specific targeting
 const vConsole = new VConsole({
-    theme: 'dark' // Try different themes
+    theme: 'dark',
+    defaultPlugins: ['system', 'network', 'element', 'storage'],
+    disableLogScrolling: true,
+    target: document.querySelector('#vconsole-container'),
+    maxLogNumber: 1000,
+});
+
+// Ensure vConsole is shown and properly positioned
+document.addEventListener('DOMContentLoaded', () => {
+    vConsole.show();
+
+    // Override any modal behaviors
+    const vcPanel = document.querySelector('#__vconsole');
+    if (vcPanel) {
+        vcPanel.style.position = 'absolute';
+        vcPanel.style.maxHeight = '100%';
+    }
 });
 
 // Test basic console methods

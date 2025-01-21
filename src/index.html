@@ -5,15 +5,67 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>vConsole Sandbox</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            padding: 20px;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
+
+        body {
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .app-container {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+
+        .content-area {
+            flex: 1 0 60%;
+            padding: 20px;
+            overflow-y: auto;
+            min-height: 0;  /* Important for flex container */
+        }
+
+        .debug-area {
+            flex: 1 0 40%;
+            position: relative;
+            border-top: 2px solid #666;
+            background: #1a1a1a;
+            min-height: 0;  /* Important for flex container */
+        }
+
+        /* Force vConsole to fit in debug area */
+        #__vconsole.vc-panel {
+            position: absolute !important;
+            top: 0 !important;
+            left: 0 !important;
+            right: 0 !important;
+            bottom: 0 !important;
+            height: 100% !important;
+            width: 100% !important;
+            background: transparent !important;
+            pointer-events: auto !important;
+        }
+
+        #__vconsole .vc-switch {
+            display: none !important;
+        }
+
+        #__vconsole .vc-panel {
+            position: relative !important;
+            min-height: 100% !important;
+            max-height: 100% !important;
+        }
+
         .button-container {
             display: flex;
             gap: 10px;
             margin-bottom: 20px;
         }
+
         button {
             padding: 10px 20px;
             cursor: pointer;
@@ -21,12 +73,17 @@
     </style>
 </head>
 <body>
-<h1>vConsole Sandbox</h1>
-<div class="button-container">
-    <button onclick="testBasicLogs()">Test Basic Logs</button>
-    <button onclick="testStyledLogs()">Test Styled Logs</button>
-    <button onclick="testNetworkRequest()">Test Network</button>
-    <button onclick="testSystemLogs()">Test System Logs</button>
+<div class="app-container">
+    <div class="content-area">
+        <h1>vConsole Sandbox</h1>
+        <div class="button-container">
+            <button onclick="testBasicLogs()">Test Basic Logs</button>
+            <button onclick="testStyledLogs()">Test Styled Logs</button>
+            <button onclick="testNetworkRequest()">Test Network</button>
+            <button onclick="testSystemLogs()">Test System Logs</button>
+        </div>
+    </div>
+    <div class="debug-area" id="vconsole-container"></div>
 </div>
 </body>
 </html>
