@@ -1,24 +1,8 @@
 import VConsole from 'vconsole';
 
-// Initialize vConsole with specific targeting
+// Initialize vConsole
 const vConsole = new VConsole({
-    theme: 'dark',
-    defaultPlugins: ['system', 'network', 'element', 'storage'],
-    disableLogScrolling: true,
-    target: document.querySelector('#vconsole-container'),
-    maxLogNumber: 1000,
-});
-
-// Ensure vConsole is shown and properly positioned
-document.addEventListener('DOMContentLoaded', () => {
-    vConsole.show();
-
-    // Override any modal behaviors
-    const vcPanel = document.querySelector('#__vconsole');
-    if (vcPanel) {
-        vcPanel.style.position = 'absolute';
-        vcPanel.style.maxHeight = '100%';
-    }
+    theme: 'dark' // Try different themes
 });
 
 // Test basic console methods
@@ -49,16 +33,18 @@ window.testStyledLogs = () => {
 
 // Test network requests
 window.testNetworkRequest = () => {
-    // Regular XHR request
+    // Regular fetch request
     fetch('https://jsonplaceholder.typicode.com/todos/1')
         .then(response => response.json())
         .then(data => console.log('Fetch response:', data));
 
-    // XHR request with _noVConsole flag
-    const xhr = new XMLHttpRequest();
-    xhr._noVConsole = true;
-    xhr.open('GET', 'https://jsonplaceholder.typicode.com/todos/2');
-    xhr.send();
+    // Alternative approach using fetch instead of XHR
+    fetch('https://jsonplaceholder.typicode.com/todos/2', {
+        headers: {
+            'X-No-VConsole': 'true'  // Custom header to indicate we want to skip vConsole logging
+        }
+    }).then(response => response.json())
+        .then(data => console.log('Second fetch response:', data));
 };
 
 // Test system logs
